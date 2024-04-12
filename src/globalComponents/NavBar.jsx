@@ -14,6 +14,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Home01Icon } from "@hugeicons/react-pro";
 import {
   AssignmentTurnedIn,
   EmojiObjects,
@@ -23,13 +24,18 @@ import {
   Wallet,
 } from "@mui/icons-material";
 import { globalColors } from "./utils/GlobalColors";
+import { NuevoInsumo } from "../assets/icons/NuevoInsumo";
+import { NuevaOrdenCompra } from "../assets/icons/NuevaOrdenCompra";
+import { Stock } from "../assets/icons/Stock";
+import { Ventas } from "../assets/icons/Ventas";
+import { CerrarSesion } from "../assets/icons/CerrarSesion";
+import { User } from "../assets/icons/User";
+import { Email } from "../assets/icons/Email";
 
 export const NavBar = () => {
   const { email, username } = useSelector((state) => state.user);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  const [selectedIndex, setSelectedIndex] = useState();
 
   const navigate = useNavigate();
 
@@ -40,7 +46,7 @@ export const NavBar = () => {
   const listItems = [
     {
       name: "Insumos",
-      icon: <EmojiObjects color={"white"} />,
+      icon: <NuevoInsumo color={globalColors.dominant} size={"20px"} />,
       id: "1",
       function: () => {
         navigate("/insumos");
@@ -49,7 +55,7 @@ export const NavBar = () => {
     },
     {
       name: "Compras",
-      icon: <Wallet color={"white"} />,
+      icon: <NuevaOrdenCompra color={globalColors.dominant} size={"20px"} />,
       id: "2",
       function: () => {
         navigate("/compras");
@@ -58,13 +64,13 @@ export const NavBar = () => {
     },
     {
       name: "Stock",
-      icon: <Inventory color={"white"} />,
+      icon: <Stock color={globalColors.dominant} size={"20px"} />,
       id: "3",
       path: "/stock",
     },
     {
       name: "Ordenes de compra",
-      icon: <AssignmentTurnedIn color={"white"} />,
+      icon: <NuevaOrdenCompra color={globalColors.dominant} size={"20px"} />,
       id: "4",
       path: "/ordenes_compra",
       function: () => {
@@ -73,14 +79,14 @@ export const NavBar = () => {
     },
     {
       name: "Ventas",
-      icon: <Sell color={"white"} />,
+      icon: <Ventas color={globalColors.dominant} size={"20px"} />,
       id: "5",
       path: "/ventas",
     },
     {
       id: "6",
       name: "Cerrar sesión",
-      icon: <HighlightOff color={"white"} />,
+      icon: <CerrarSesion color={globalColors.redColor} size={"20px"} />,
       function: () => {
         navigate("/login");
       },
@@ -153,23 +159,53 @@ export const NavBar = () => {
               textAlign: "center",
             }}
           >
-            <h4
+            <div
               style={{
-                marginBottom: "-10px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              Nombre usuario
-            </h4>
-            <p>{username}</p>
+              <User color={globalColors.dominant} size={20} />
+              <h4
+                style={{
+                  marginLeft: "6px",
+                }}
+              >
+                Nombre usuario
+              </h4>
+            </div>
+            <p
+              style={{
+                marginTop: "-10px",
+              }}
+            >
+              {username}
+            </p>
 
-            <h4
+            <div
               style={{
-                marginBottom: "-10px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              Correo electrónico
-            </h4>
-            <p>{email}</p>
+              <Email color={globalColors.dominant} size={20} />
+              <h4
+                style={{
+                  marginLeft: "6px",
+                }}
+              >
+                Correo electrónico
+              </h4>
+            </div>
+            <p
+              style={{
+                marginTop: "-10px",
+              }}
+            >
+              {email}
+            </p>
           </div>
         </div>
         {listItems.map((items) => (
@@ -193,7 +229,10 @@ export const NavBar = () => {
               fontFamily: "Public Sans",
               transition: ".2s",
               ":hover": {
-                backgroundColor: globalColors?.accentuated,
+                backgroundColor:
+                  items.id === "6"
+                    ? globalColors.redColorAccentuated
+                    : globalColors?.accentuated,
                 margin: "0px 12px 10px 12px",
                 borderRadius: "5px",
               },
@@ -206,8 +245,12 @@ export const NavBar = () => {
           >
             <Grid
               style={{
-                color: globalColors?.dominant,
+                color:
+                  window.location.pathname === items?.path
+                    ? globalColors.dominant
+                    : globalColors?.textColor,
                 marginRight: "10px",
+                marginTop: "4px",
                 fontWeight: "800",
               }}
             >
@@ -215,9 +258,12 @@ export const NavBar = () => {
             </Grid>
             <Grid
               style={{
-                color: globalColors?.textColor,
+                color:
+                  window.location.pathname === items?.path
+                    ? globalColors.dominant
+                    : globalColors?.textColor,
                 fontFamily: "Public Sans",
-                fontWeight: "800",
+                fontWeight: "600",
               }}
             >
               {items.name}

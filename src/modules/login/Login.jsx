@@ -44,7 +44,7 @@ export const Login = () => {
       body,
       route: userAuthentication,
       token,
-      method: "POST",
+      methodFetch: "POST",
     });
 
     if (resp?.code === 200) {

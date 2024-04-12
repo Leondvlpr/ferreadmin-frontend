@@ -5,3 +5,4 @@ export const obtenerInsumos = ApiHost + "/insumos";
 export const guardarInsumo = ApiHost + "/insumos/guardarInsumo"
 export const obtenerProveedores = ApiHost + "/proveedor"
 export const obtenerCompras = ApiHost + "/compras"
+export const guardarCompra = ApiHost + "/guardarCompra"

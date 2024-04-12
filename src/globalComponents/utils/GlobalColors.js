@@ -4,4 +4,6 @@ export const globalColors = {
   subdominant: "#bfe0e2",
   accentuated: "#ddeff0",
   textColor: "#1a2c32",
+  redColor: "#ff5757",
+  redColorAccentuated: "#ffdddd"
 };

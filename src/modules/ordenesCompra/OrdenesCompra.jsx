@@ -3,8 +3,12 @@ import { obtenerCompras } from "../../services/Routes";
 import { useSelector } from "react-redux";
 import { FetchGeneral } from "../../services/FetchGeneral";
 import { Grid } from "@mui/material";
-import { ColorButton, CustomTextField } from "../../globalComponents/StyledComponents";
+import {
+  ColorButton,
+  CustomTextField,
+} from "../../globalComponents/StyledComponents";
 import { CustomTable } from "../../globalComponents/CustomTable";
+import { fetchCompras } from "../../globalComponents/utils/ModuleFunctions";
 
 export const OrdenesCompra = () => {
   const { token } = useSelector((state) => state.user);
@@ -33,25 +37,16 @@ export const OrdenesCompra = () => {
     },
   ];
 
-  const fetchCompras = async () => {
-    const params = {
-      route: obtenerCompras,
-      method: "GET",
-      token,
-    };
-    const resp = await FetchGeneral(params);
-
-    setOrdenesCompraGeneral((prev) => ({
-      ...prev,
-      tableData: resp?.map((data) => ({
-        ...data,
-        proveedor: data?.proveedor?.nombreProveedor,
-      })),
-    }));
-  };
-
   useEffect(() => {
-    fetchCompras();
+    fetchCompras({ token }).then((response) => {
+      setOrdenesCompraGeneral((prev) => ({
+        ...prev,
+        tableData: response?.map((data) => ({
+          ...data,
+          proveedor: data?.proveedor?.nombreProveedor,
+        })),
+      }));
+    });
   }, []);
 
   return (
