@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { obtenerCompras } from "../../services/Routes";
+import { generarPdf, obtenerCompras } from "../../services/Routes";
 import { useSelector } from "react-redux";
 import { FetchGeneral } from "../../services/FetchGeneral";
-import { Grid } from "@mui/material";
+import { CircularProgress, Grid } from "@mui/material";
 import {
   ColorButton,
   CustomTextField,
 } from "../../globalComponents/StyledComponents";
 import { CustomTable } from "../../globalComponents/CustomTable";
-import { fetchCompras } from "../../globalComponents/utils/ModuleFunctions";
+import {
+  fetchCompras,
+  fetchGenerarPdfOrdenCompra,
+} from "../../globalComponents/utils/ModuleFunctions";
+import { InsertInfoModal } from "../../globalComponents/InsertInfoModal";
 
 export const OrdenesCompra = () => {
   const { token } = useSelector((state) => state.user);
@@ -16,6 +20,7 @@ export const OrdenesCompra = () => {
   const [ordenesCompraGeneral, setOrdenesCompraGeneral] = useState({
     tableData: [],
     nuevaCompraModal: false,
+    isLoading: false
   });
 
   const columns = [
@@ -37,6 +42,50 @@ export const OrdenesCompra = () => {
     },
   ];
 
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleChangeStateComponent = (key, value) => {
+    setOrdenesCompraGeneral(prev => ({
+      ...prev,
+      [key]: value
+    }))
+  }
+
+  const generatePdf = () => {
+    handleChangeStateComponent("isLoading", true)
+
+    const body = {
+      idCompra: "5",
+    }; // Set the idCompra value
+
+    fetchGenerarPdfOrdenCompra({ body, token, normalResponse: true })
+      .then((response) => response.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(new Blob([blob]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "archivo.pdf");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+      handleChangeStateComponent("isLoading", false);
+  }
+
+  const handleFileChange = () => {
+
+    
+  };
+
+  const handleChangeOpenNuevaCompraModal = () => {
+    setOrdenesCompraGeneral(prev => ({
+      ...prev,
+      nuevaCompraModal: !ordenesCompraGeneral.nuevaCompraModal
+    }))
+  }
+
   useEffect(() => {
     fetchCompras({ token }).then((response) => {
       setOrdenesCompraGeneral((prev) => ({
@@ -48,6 +97,7 @@ export const OrdenesCompra = () => {
       }));
     });
   }, []);
+  
 
   return (
     <div style={{ height: 400, width: "100%" }}>
@@ -78,14 +128,33 @@ export const OrdenesCompra = () => {
             style={{
               width: "160px",
             }}
-            // onClick={handleStateOpenInsumoModal}
-            // disabled={isLoading}
+            onClick={handleChangeOpenNuevaCompraModal}
+            disabled={ordenesCompraGeneral.isLoading}
           >
-            + Generar orden de compra
+            {ordenesCompraGeneral.isLoading ? (
+            <CircularProgress
+              style={{
+                width: "20px",
+                height: "20px",
+                color: "white",
+              }}
+            />
+          ) : (
+            <p>+ Generar orden de compra</p>
+          )}
           </ColorButton>
         </Grid>
         <CustomTable columns={columns} data={ordenesCompraGeneral.tableData} />
       </Grid>
+
+      <InsertInfoModal
+      open={ordenesCompraGeneral.nuevaCompraModal}
+      title={"Generar orden de compra"}
+      subTitle={"Selecciona los productos que deseas abastecer"}
+      handleClose={handleChangeOpenNuevaCompraModal}
+      >
+        
+      </InsertInfoModal>
 
       {/* <NuevoInsumo
         open={insumosGeneral.nuevoInsumoModalOpen}

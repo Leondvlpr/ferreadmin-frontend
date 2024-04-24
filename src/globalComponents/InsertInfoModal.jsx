@@ -20,7 +20,7 @@ export const InsertInfoModal = ({
         style={{
           maxWidth: "700px",
           display: "flex",
-          justifyContent: "center",
+          // justifyContent: "center",
           boxShadow: "none",
           borderRadius: "8px",
         }}
@@ -28,6 +28,7 @@ export const InsertInfoModal = ({
         <div
           style={{
             margin: "20px 40px 40px 40px",
+            width: "100%"
           }}
         >
           <div

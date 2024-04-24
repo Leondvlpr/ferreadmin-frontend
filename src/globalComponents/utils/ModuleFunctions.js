@@ -1,5 +1,6 @@
 import { FetchGeneral } from "../../services/FetchGeneral";
 import {
+  generarPdf,
   guardarInsumo,
   obtenerCompras,
   obtenerInsumos,
@@ -42,6 +43,18 @@ export const fetchCompras = async ({token}) => {
     route: obtenerCompras,
     methodFetch: "GET",
     token,
+  });
+
+  return resp;
+}
+
+export const fetchGenerarPdfOrdenCompra = async ({token, body, normalResponse}) => {
+  const resp = await FetchGeneral({
+    body,
+    route: generarPdf,
+    methodFetch: "POST",
+    token,
+    normalResponse
   });
 
   return resp;

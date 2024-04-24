@@ -1,4 +1,4 @@
-export const FetchGeneral = ({body = {}, route, methodFetch, token}) => {
+export const FetchGeneral = ({body = {}, route, methodFetch, token, normalResponse}) => {
 
   const method = {
     POST: {
@@ -19,7 +19,7 @@ export const FetchGeneral = ({body = {}, route, methodFetch, token}) => {
   };
 
   return fetch(route || "", method[methodFetch])
-    .then((response) => response.json())
+    .then((response) => normalResponse ? response : response.json())
     .then((data) => {
       return data;
     })
