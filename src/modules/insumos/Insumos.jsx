@@ -1,7 +1,6 @@
 import { Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { CustomTable } from "../../globalComponents/CustomTable";
 import { InsertInfoModal } from "../../globalComponents/InsertInfoModal";
 import {
   ColorButton,
@@ -18,6 +17,7 @@ import {
 import { insumosTablecolumns } from "./utils/TableColumns";
 import { NuevoInsumo } from "../../assets/icons/NuevoInsumo";
 import { globalColors } from "../../globalComponents/utils/GlobalColors";
+import { CustomTable } from "../../globalComponents";
 
 export const Insumos = () => {
   const { token } = useSelector((state) => state.user);

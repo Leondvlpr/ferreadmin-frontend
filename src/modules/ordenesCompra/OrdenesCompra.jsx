@@ -7,7 +7,7 @@ import {
   ColorButton,
   CustomTextField,
 } from "../../globalComponents/StyledComponents";
-import { CustomTable } from "../../globalComponents/CustomTable";
+import { CustomTable } from "../../globalComponents/CustomTable/CustomTable";
 import {
   fetchCompras,
   fetchGenerarPdfOrdenCompra,
